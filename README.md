@@ -8,16 +8,16 @@
 
 ![image](https://user-images.githubusercontent.com/99288104/203073610-57aac5c7-5b32-44cf-aa32-b7487a5751e2.png)
 
-# 方針
+## 方針
 
 Kaggle上で全てを完結させる
 Version名は常にVersion○に統一して、README.mdに簡単に内容を書き込む
 issue boardに思いついたアイデアを書いていく。
 詳しい実験などを行った際には、その旨をREADMEに書き込み、詳しい実験結果はそのNoteBookの一番上にoverviewとして書き込む -> README.mdだけで事足りたので使いませんでした。
 
-# Basics
+## Basics
 
-# Overview(DeepL)
+## Overview(DeepL)
 
 コンペティションの目標
 このコンペティションのゴールは、eコマースのクリック、カートへの追加、および注文を予測することである。あなたは、ユーザーセッションの過去のイベントに基づいて、多目的レコメンダーシステムを構築します。
