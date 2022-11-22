@@ -59,7 +59,8 @@
 ## Log
 
 ## 20221122
--まずは、Edward氏の公開noteboookのEDA(https://www.kaggle.com/code/edwardcrookenden/otto-getting-started-eda-baseline)を写経してみる。
+-まずは、Edward氏の公開noteboookのEDA(https://www.kaggle.com/code/edwardcrookenden/otto-getting-started-eda-baseline)
+を写経してみる。
 
 ##データ構造
 -session - 一意のセッションID。各セッションには、時間順に並んだイベントのリストが含まれる。
@@ -68,7 +69,7 @@
 -ts - イベントの Unix タイムスタンプ (Unix time は、1970年1月1日 00:00:00 UTC からの経過したマイクロ秒の数)
 -type - つまり、セッション中に製品がクリックされたか（clicks）、ユーザーのカートに入れられたか（carts）、注文されたか（orders）。
   
-##疑問点
+## 疑問点
 -途中のsamplesizeはなぜ150000？
 -
 
