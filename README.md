@@ -59,7 +59,7 @@
 ## Log
 
 ## 20221122
--まずは、Edward氏の公開noteboookのEDAを写経してみる。
+-まずは、Edward氏の公開noteboookのEDA(https://www.kaggle.com/code/edwardcrookenden/otto-getting-started-eda-baseline)を写経してみる。
 
 ##データ構造
 -session - 一意のセッションID。各セッションには、時間順に並んだイベントのリストが含まれる。
