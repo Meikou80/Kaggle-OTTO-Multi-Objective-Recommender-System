@@ -80,4 +80,7 @@
 
  各セッションとタイプの組み合わせは、提出物の中でそれ自身の session_type 行に表示される必要があり（セッションごとに 3 行）、予測はスペースで区切られる必要があります。これは、以下の sample_test_df で見ることができます。
 
+## 20221123
+-GUNES氏の公開noteboookのEDA(https://www.kaggle.com/code/gunesevitan/otto-multi-objective-recommender-system-eda)
+を写経してみる。(nb002)
 
