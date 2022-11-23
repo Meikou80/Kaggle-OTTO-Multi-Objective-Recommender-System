@@ -123,6 +123,6 @@ Nはテストセット内のセッションの総数であり、 predicted aids�
   -12 カートと注文のイベントタイプでは、複数のグランドトゥルース補助があるため、リコールは0から1の間の任意の値になる。これらのイベントタイプのリコールは集合演算で計算することができる。真陽性はGround-Truthと予測エイドの交点、偽陰性はGround-Truthと予測エイドの交点である。
  まれにGround-truthの数が20を超えることがある。そのような場合の計算ミスを防ぐため、分母はmin(20, n_aids)とする。
 
--CHRIS氏の公開noteboookのEDA((https://www.kaggle.com/code/cdeotte/time-series-eda-users-and-real-sessions/notebook))を写経してみる。(nb003)
+-CHRIS氏の公開noteboookのEDA(https://www.kaggle.com/code/cdeotte/time-series-eda-users-and-real-sessions/notebook)を写経してみる。(nb003)
 
 わかったこと
