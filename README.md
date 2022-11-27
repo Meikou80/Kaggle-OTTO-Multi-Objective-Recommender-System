@@ -149,7 +149,7 @@ Nはテストセット内のセッションの総数であり、 predicted aids�
 -5　暗黙的な評価値を用いた推薦システムについては、「施策デザインのための機械学習入門」にも書いてるようなので購入予定
 
 ## 20221126
--CHRIS氏の公開noteboook(https://www.kaggle.com/code/cdeotte/candidate-rerank-model-lb-0-575/notebook#Step-2---ReRank-(choose-20)-using-handcrafted-rules)
+-CHRIS氏の公開noteboook(https://www.kaggle.com/code/cdeotte/candidate-rerank-model-lb-0-575)
 を写経してみる。(nb004)
 
 (以下DeepL）
@@ -220,7 +220,8 @@ type - イベントのタイプ、つまり、セッション中に製品がク�
 -5　メトリクスの計算
 evalute.pyスクリプトを使用すると、各アクションタイプのRecall@20と投稿の加重平均Recall@20を計算することができます。
 
--CHRIS氏の公開notebook(https://www.kaggle.com/code/cdeotte/candidate-rerank-model-lb-0-575/notebook#Step-2---ReRank-(choose-20)-using-handcrafted-rules)に出てくるCo-Visitation　Matrixの考え方がよくわからないので、VLADIMIR氏の公開notebook(https://www.kaggle.com/code/vslaykovsky/co-visitation-matrix)
+-CHRIS氏の公開notebook(https://www.kaggle.com/code/cdeotte/candidate-rerank-model-lb-0-575)
+に出てくるCo-Visitation　Matrixの考え方がよくわからないので、VLADIMIR氏の公開notebook(https://www.kaggle.com/code/vslaykovsky/co-visitation-matrix)
 を読んでみる
 
 OTTO：コ・ビジテーション・マトリックス
