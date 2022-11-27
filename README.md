@@ -220,4 +220,12 @@ type - イベントのタイプ、つまり、セッション中に製品がク�
 -5　メトリクスの計算
 evalute.pyスクリプトを使用すると、各アクションタイプのRecall@20と投稿の加重平均Recall@20を計算することができます。
 
+-CHRIS氏の公開notebook(https://www.kaggle.com/code/cdeotte/candidate-rerank-model-lb-0-575/notebook#Step-2---ReRank-(choose-20)-using-handcrafted-rules)に出てくるCo-Visitation　Matrixの考え方がよくわからないので、VLADIMIR氏の公開notebook(https://www.kaggle.com/code/vslaykovsky/co-visitation-matrix)
+を読んでみる
 
+OTTO：コ・ビジテーション・マトリックス
+よく見られている商品、よく買われている商品は存在する。ここでは、このアイデアを利用して、商品の共同訪問行列を計算する。計算方法は以下の通りです。
+
+まず、同じセッションの中で、時間的に近い（<1日）イベントのペアをすべて調べます。すべてのセッションで、各ペアのイベントペアのグローバル数をカウントすることによって、co-visitation行列Maid1,aid2を計算します。
+各 aid1 に対して，最も頻度の高い上位 20 個の aid2 を求める： aid2=argsort(M[aid])[-20:].
+テストセッションイベントのtail(20) (https://www.kaggle.com/code/simamumu/old-test-data-last-20-aid-get-lb0-947 参照)とco-visitation matrixから最も可能性の高いレコメンデーションを連結することによってテスト結果を生成する．これらのレコメンデーションは、セッションAIDとステップ2からのaid2から生成される。
