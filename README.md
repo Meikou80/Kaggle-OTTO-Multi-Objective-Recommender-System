@@ -235,4 +235,4 @@ OTTO：コ・ビジテーション・マトリックス
 -3　テストセッションイベントのtail(20) (https://www.kaggle.com/code/simamumu/old-test-data-last-20-aid-get-lb0-947 参照)とco-visitation matrixから最も可能性の高いレコメンデーションを連結することによってテスト結果を生成する．これらのレコメンデーションは、セッションAIDとステップ2からのaid2から生成される。
 
 ## 20221129
-上記CHIRS氏のRERANKモデルのコードがいまいち理解できない。要はpythonがよくわかっていないということで、ここから少しだけpythonの文法を学ぶこととした。
+上記CHRIS氏のRERANKモデルのコードがいまいち理解できない。要はpythonがよくわかっていないということで、ここから少しだけpythonの文法を学ぶこととした。
