@@ -265,7 +265,8 @@ OTTO：コ・ビジテーション・マトリックス
    
 ## 20221203
 　引き続き実際の分析コンペにおける特徴量作成の例
- -1　Santandar　Product　Recommendation
+ 
+ -1　Santander　Product　Recommendation
  　-各商品の購入有無フラグのラグ特徴量
  　-それらのフラグを連結したものをカテゴリ変数としてtarget-encoding
    -各商品の購入有無フラグが0→0、0→1、1→0、1→1に遷移した回数
