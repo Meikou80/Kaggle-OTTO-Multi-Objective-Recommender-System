@@ -321,4 +321,94 @@ aid (すなわちitem)
 スピード - GPUを使用する
 このデータには約1300万人のユーザーと200万個のアイテムがあるので、以下のコードは全て実行に時間がかかります。NvidiaのRAPIDS cuDFのように、高速化するためにCPUの代わりにGPUを使用することをお勧めします。
 
+ ## 20221207
+Step 1
+トレーニングデータは、Kaggleトレーニングの最初の3週間分のデータを使用します。そして、検証データはKaggleのトレーニングの最後の1週間とします。(ここではRadekの訓練データと有効データを使うことを考えます) 我々の検証データ（すなわちKaggle訓練の最後の1週間）のすべてのユーザー（すなわちセッション）に対して、我々はX候補エイドを生成します。ここでは、X=50とします。ここで、(number_of_session x 50, 2 )の形のデータフレームを作成します。
+
+user	item
+0001	6456
+0001	4490
+0002	8486
+0002	7297
+
+各セッションは50回ずつ登場します。また、[session,aid]のペアが重複することはないでしょう。検証データのユーザーしかターゲットにしないので、検証データのユーザーしか使いません（以下のステップ6で説明します）。
+
+Step 2
+商品の特徴量を作成する。訓練データ＋有効データ（テストリークを使用）により、商品の特徴量を独自のデータフレームで作成し、ディスクにパーケットを保存します。例えば
+
+item_features = train.groupby('aid').agg({'aid':'count','session','nunique','type','mean'})
+item_features.columns = ['item_item_count','item_user_count','item_buy_ratio']
+# CONVERT COLUMNS TO INT32 and FLOAT32 HERE
+item_features.to_parquet('item_features.pqt')
+
+メモリーに問題がある場合はご注意ください。train を 10 個の dataframe part に分割する．train_part_1.groupby('aid') が正しく動作するように、1つの商品に関連するすべての行は、同じデータフレーム部分にある必要があります。処理後、各パートを別々にディスクに保存する。そして、後でディスクから読み込む際に、候補データフレームにマージする前に、それらを連結する。
+
+STEP 3
+ユーザーの特徴量を作成する。検証データを用いて、ユーザーの特徴量を独自のデータフレームに作成し、ディスクにパーケットを保存します。例えば
+
+user_features = train.groupby('session').agg({'session':'count','aid','nunique','type','mean'})
+user_features.columns = ['user_user_count','user_item_count','user_buy_ratio']
+# CONVERT COLUMNS TO INT32 and FLOAT32 HERE
+user_features.to_parquet('user_features.pqt')
+
+Step 4
+ユーザー×商品の交互作用特徴量を作成する。検証データを用いて、複数のユーザー×商品特徴量データフレームを作成し、ディスクにパーケットとして保存します。各アイデアについて、新しいデータフレームを作成することができます。1つのデータフレームには、ユーザがクリックしたすべての商品を含めることができます。そこで、1列user、1列item、3列目item_clickedを持つデータフレームを作成します。そして、ユーザがクリックしたユニークな商品ごとに、item_clicked = 1の新しい行を追加します。このデータフレームには、['user','item']のペアの重複行がないことに注意してください。このデータフレームをディスクに保存します。これを候補データフレームにマージする際には、クリックされなかった商品を示すために、fillna(0)を使用します。
+
+Step 5
+候補データフレームに特徴量を追加する。候補データフレームに特徴量を追加するために、以下のようにディスクから読み込んでマージする。
+
+item_features = pd.read_parquet('item_features.pqt')
+candidates = candidates.merge(item_features, left_on='aid', right_index=True, how='left').fillna(-1)
+user_features = pd.read_parquet('user_features.pqt')
+candidates = candidates.merge(user_features, left_on='session', right_index=True, how='left').fillna(-1)
+
+これで候補のデータフレームは次のようになります。
+
+user	item	item_feat1	item_feat2	user_feat1	user_feat2
+0001	6456	10	12	3	0.5
+0001	4490	13	5	5.4	0.1
+0002	8486	55	10	5	0.9
+0002	7297	70	20	2	1.2
+
+注：もしすべての特徴を候補データフレームにマージする際にメモリに問題がある場合は、これを分割して行うことができます。
+
+CHUNKS = 10
+chunk_size = len(candidates)
+for k in range(CHUNKS):
+    df = candidates.iloc[k*chunk_size:(k+1)*chunk_size].copy()
+    df = df.merge(item_features, left_on='aid', right_index=True, how='left').fillna(-1)
+    df = df.merge(user_features, left_on='session', right_index=True, how='left').fillna(-1)
+    df.to_parquet(f'candidate_with_features_p{k}.pqt')
+    
+Step 6
+これから、ステップ1の候補データフレームにターゲットを追加していきます。targetの列を追加する最も良い方法は、dataframe mergeを使用することです。まず、以下のようにすべてのターゲット=1のデータフレームを作成します。以下のようなリストの列としてターゲットを含むdataframeからスタートします（ここではRadekのground truth labelsのようなもの）。
+
+test_labels.parquet
+
+session	type	ground truth
+0001	clicks	[3456, 4490, 5661, 7821, 9914 ]
+0002	clicks	[1222, 4656, 533, 8486]
+
+これらのリストをターゲットのデータフレームに変換するために、次のコードを使用します。
+
+tar = pd.read_parquet('test_labels.parquet')
+tar = tar.loc[ tar['type']=='clicks' ]
+tar = tar.labels.explode().astype('int32')
+tar.columns = ['user','item']
+tar['click'] = 1
+
+このようなデータフレームが生成されます。
+
+user	item	click
+0001	3456	1
+0001	4490	1
+
+そして、それを次の行で候補データフレームにマージします。
+
+candidates = candidates.merge(click_target,on=['user','item'],how='left').fillna(0)
+user	item	item_feat1	item_feat2	user_feat1	user_feat2	click
+0001	6456	10	12	3	0.5	0
+0001	4490	13	5	5.4	0.1	1
+0002	8486	55	10	5	0.9	1
+0002	7297	70	20	2	1.2	0
 
