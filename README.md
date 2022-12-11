@@ -412,4 +412,6 @@ user	item	item_feat1	item_feat2	user_feat1	user_feat2	click
 0002	8486	55	10	5	0.9	1
 0002	7297	70	20	2	1.2	0
 
-## 20221210
+## 20221211
+自分でコードを書けるレベルにないので、Radek氏のnotebookを写経して理解を深めていく。
+今日やったのはXGBOOST　Ranker
