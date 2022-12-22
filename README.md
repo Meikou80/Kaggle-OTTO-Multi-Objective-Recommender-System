@@ -415,3 +415,8 @@ user	item	item_feat1	item_feat2	user_feat1	user_feat2	click
 ## 20221211
 自分でコードを書けるレベルにないので、Radek氏のnotebookを写経して理解を深めていく。
 今日やったのはXGBOOST　Ranker
+
+### 20221222
+Chris氏がdiscussionで上げてくれていたGBT Ranker Modelだが、STEP５まではなんとか行けたが、STEP6でcandidatesがmergeできない。cartが定義されていないってのでエラーが出てる。なぜ？
+
+
